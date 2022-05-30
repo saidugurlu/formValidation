@@ -1,65 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bootstrap demo</title>
-        <!-- Bootstrap Font Icon CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
-        <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- Bootstrap Font Icon CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+    />
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    
-<section class="vh-100 gradient-custom">
-  <div class="container py-5 h-100">
-    <div class="row justify-content-center align-items-center h-100">
-      <div class="col-12 col-lg-9 col-xl-7">
-        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
-          <div class="card-body p-4 p-md-5">
-            <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Passwort erstellen</h3>
-            <form>
+    <section id="background" class="vh-100 gradient-custom bg-dark">
+      <div class="container py-5 h-100 bg-white">
+        <div class="row justify-content-center align-items-center h-100">
+          <div class="col-12 col-lg-9 h-50">
+            <div
+              class="card shadow-2-strong card-registration"
+              style="border-radius: 15px"
+            >
+              <div class="card-body p-4 p-md-5">
+                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Passwort erstellen</h3>
 
-              <div class="row">
-                <div class="col-md-6 mb-4">
-
+                <div class="row">
+                  <div class="col-md-6 mb-4">
                     <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                        <input id="password" type="password" class="form-control" name="password" placeholder="Passwort">
-                      </div>
-
+                      <span class="input-group-text"
+                        ><i class="bi bi-lock-fill"></i
+                      ></span>
+                      <input
+                        id="pswd"
+                        type="password"
+                        class="form-control"
+                        name="password"
+                        placeholder="Passwort"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6 mb-4">
+                    <div class="input-group">
+                      <span class="input-group-text"
+                        ><i class="bi bi-lock-fill"></i
+                      ></span>
+                      <input
+                        id="confirmPswd"
+                        type="password"
+                        class="form-control"
+                        name="password"
+                        placeholder="Passwort bestätigen"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div class="col-md-6 mb-4">
 
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="bi bi-lock-fill"></i></span>
-                        <input id="password" type="password" class="form-control" name="password" placeholder="Geben Sie das Passwort erneut ein">
-                      </div>
-
+                <div class="d-grid gap-2 col-6 mx-auto">
+                  <input
+                    class="btn btn-outline-dark btn-md"
+                    id="confirmButton"
+                    type="submit"
+                    value="Passwort überprüfen"
+                  />
                 </div>
               </div>
-
-              
-
-              <div class="d-grid gap-2 col-6 mx-auto">
-                <input class="btn btn-outline-dark btn-lg" type="submit" value="Submit" />
-              </div>
-
-            </form>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
+    </section>
 
+    <script>
+      "use strict";
+      // All elements selected
+      const cardBody = document.querySelectorAll(".card-body")[0];
+      const pswd = document.querySelector("#pswd");
+      const confirmPswd = document.querySelector("#confirmPswd");
+      const confirmButton = document.querySelector("#confirmButton");
+      const background = document.querySelector("#background");
+      const inputs = document.querySelectorAll("#pswd, #confirmPswd");
 
+      // Alert Function-------------------------------------------------------------
+      function showAlert(color, message) {
+        const alert = document.createElement("div");
 
+        alert.className = `alert alert-${color} m-4`;
 
+        alert.textContent = message;
+        cardBody.appendChild(alert);
 
+        setTimeout(function () {
+          background.classList.add("bg-dark");
+          confirmButton.classList.remove("disabled");
+          alert.remove();
+        }, 1500);
+      }
+      // validation control -------------------------------------------------------------------------
+      confirmButton.addEventListener("click", () => {
+        const pswdValue = pswd.value.trim().toLowerCase();
+        const pswdConfirmValue = confirmPswd.value.trim().toLowerCase();
+        confirmButton.classList.add("disabled");
 
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+        if (pswdValue === "" || pswdConfirmValue === "") {
+          showAlert("danger", "Beiden Felder muss unbedingt ausgefüllt werden");
+          background.classList.remove("bg-dark", "bg-warning", "bg-success");
+          background.classList.add("bg-danger");
+        } else if (pswdValue !== pswdConfirmValue) {
+          showAlert("warning", "Passwörter müssen gleich sein");
+          background.classList.remove("bg-dark", "bg-danger", "bg-success");
+          background.classList.add("bg-warning");
+        } else if (pswdValue === pswdConfirmValue) {
+          showAlert("success", "Herzlich willkommen");
+          background.classList.remove("bg-dark", "bg-warning", "bg-danger");
+          background.classList.add("bg-success");
+        }
+        // delete all inputs-------------------------------------------------------------------
+        inputs.forEach((input) => {
+          input.value = "";
+        });
+      });
+    </script>
   </body>
 </html>
